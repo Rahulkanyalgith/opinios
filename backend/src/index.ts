@@ -2,6 +2,7 @@ import express, { Application, Response, Request } from "express";
 import "dotenv/config";
 import path from "path";
 import { fileURLToPath } from "url";
+import ejs from "ejs";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app: Application = express();
@@ -15,8 +16,9 @@ app.set("views", path.resolve(__dirname, "./views"));
 
 
 
-app.get("/", (req: Request, res: Response) => {
-  return res.render("hello");
+app.get("/", async (req: Request, res: Response) => {
+  const html = await ejs.renderFile(__dirname)
+  return res.render("emails/welcome", { name : "rahul kanyal"});
 });
 
 app.listen(PORT, () => {
