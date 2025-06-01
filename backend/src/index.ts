@@ -17,10 +17,21 @@ app.set("views", path.resolve(__dirname, "./views"));
 
 
 app.get("/", async (req: Request, res: Response) => {
-  const html = await ejs.renderFile(__dirname)
-  return res.render("emails/welcome", { name : "rahul kanyal"});
+  // const html = await ejs.renderFile(__dirname)
+  // return res.render("emails/welcome", { name : "rahul kanyal"});
+
+  await emailQueue.add(emailQueueName, {name:"rahul kanyal", age:21})
 });
+
+
+// queues import kar rahe hai 
+import "./jobs/index.js";
+import { emailQueue, emailQueueName } from "./jobs/EmailJob.js";
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+
+
+
