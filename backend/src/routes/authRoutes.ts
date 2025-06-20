@@ -1,16 +1,12 @@
 import { Router, Response, Request } from "express";
 import { registerSchema } from "../validation/authValidations.js";
 import { ZodError } from "zod";
-import { formatError } from "zod/v4";
+import { formatError, renderEmailEjs } from "../helper.js";
 import prisma from "../config/database.js"
-import {
-  checkDateHourDifference,
-  formatError,
-  generateRandomNum,
-  renderEmailEjs,
-} from "../helper.js";
+import { v4 as uuidv4 } from "uuid";
 
 import bcrypt from "bcrypt";
+import { emailQueue, emailQueueName } from "../jobs/EmailJob.js";
 const router = Router();
 
 router.post("/register",  async (req: Request, res: Response) : Promise<any> => {
@@ -59,7 +55,7 @@ router.post("/register",  async (req: Request, res: Response) : Promise<any> => 
       const errors = formatError(error);
       res.status(422).json({ message: "Invalid data", errors });
     } else {
-      logger.error({ type: "Register Error", body: JSON.stringify(error) });
+      Logger.error({ type: "Register Error", body: JSON.stringify(error) });
       res
         .status(500)
         .json({ error: "Something went wrong.please try again!", data: error });
