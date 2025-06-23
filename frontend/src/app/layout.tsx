@@ -3,6 +3,7 @@ import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 // import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
+import { Toaster } from "sonner";
 // import ClientSessionProvider from "./providers/ClientSessionProvider";
 
 const fontSans = FontSans({
@@ -27,7 +28,8 @@ export default function RootLayout({
           "min-h-screen  font-sans antialiased bg-slate-50",
           fontSans.variable
         )}
-      >
+      >  
+        <Toaster richColors position="top-right"/>
         {children}
         
       </body>
